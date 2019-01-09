@@ -18,11 +18,12 @@
         <script>
             var params = %@;
             var playerIframe = document.getElementById('fl-container');
+            var video;
             playerIframe.src = params['url'];
             
             playerIframe.onload = function() {
                 var innerDoc = playerIframe.contentDocument || playerIframe.contentWindow.document;
-                var video = innerDoc.querySelectorAll('video')[0];
+                video = innerDoc.querySelectorAll('video')[0];
                 video.ontimeupdate = function() {updateTime()};
                 function updateTime() {
                     var json = {
@@ -30,15 +31,11 @@
                     }
                     window.webkit.messageHandlers.progress.postMessage(JSON.stringify(json));
                 }
-            }
-        
-            function play() {
-                var innerDoc = playerIframe.contentDocument || playerIframe.contentWindow.document;
-                innerDoc.querySelectorAll('video')[0].play();
-            }
-            function pause() {
-                var innerDoc = playerIframe.contentDocument || playerIframe.contentWindow.document;
-                innerDoc.querySelectorAll('video')[0].pause();
+                
+                var json = {
+                    message: 'frame is loaded'
+                }
+                window.webkit.messageHandlers.loaded.postMessage(JSON.stringify(json));
             }
         </script>
     </body>

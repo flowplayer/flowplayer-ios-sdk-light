@@ -24,6 +24,15 @@
  * @param currentTime a float indicating the current playback time in seconds.
  */
 - (void)timeUpdate:(float)currentTime;
+
+/**
+ *
+ * Invoked when the view is done loading all components,
+ * note that this is not a guarente that the video can play through.
+ * But it's fine to call playerView.play()
+ *
+ */
+- (void)viewIsReady;
 @end
 
 
@@ -34,8 +43,6 @@
  * FLPlayerView::loadWithVideoId andPlayerId:.
  */
 @interface FLPlayerView : UIView <WKScriptMessageHandler>
-
-@property(nonatomic, strong, nullable, readonly) WKWebView *webView;
 
 /** A delegate to be notified on playback events. */
 @property(nonatomic, weak, nullable) id<FLPlayerViewDelegate> delegate;
