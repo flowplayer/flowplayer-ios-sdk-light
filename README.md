@@ -91,7 +91,8 @@ extension ViewController: FLPlayerViewDelegate {
 
 ### Cocapods (comming soon)
 
-After installing it your project and opening the workspace, to use the library:
+
+After importing your framework:
 
   1. Drag a UIView onto your Storyboard.
   2. Change the UIView's class in the Identity Inspector tab to FLPlayerView
