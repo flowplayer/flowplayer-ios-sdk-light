@@ -39,7 +39,7 @@ extension ViewController: FLPlayerViewDelegate {
 }
 ```
 
-#### Objective-c
+#### Objective-C
 ```objc
 #import "ViewController.h"
 #import <Flowplayer/Flowplayer.h>
