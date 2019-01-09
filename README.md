@@ -1,7 +1,7 @@
 # Flowplayer iOS SDK
 ![flowplayer](https://flowplayer.com/images/logo-blue.png)
-[![Flowplayer platform](https://img.shields.io/badge/Platform-iOS-orange.svg)]
-[![ios 10.0](https://img.shields.io/badge/ios-10.0-blue.svg)]
+![Flowplayer platform](https://img.shields.io/badge/Platform-iOS-orange.svg)
+![ios 10.0](https://img.shields.io/badge/ios-10.0-blue.svg)
 
 ## Usage
 
