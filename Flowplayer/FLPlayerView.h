@@ -33,6 +33,14 @@
  *
  */
 - (void)viewIsReady;
+
+/**
+ *
+ * Invoked when the state changed on video
+ *
+ * @param isPlaying a boolean indicating if the video is playing or not
+ */
+- (void)stateChanged:(Boolean)isPlaying;
 @end
 
 
@@ -46,6 +54,10 @@
 
 /** A delegate to be notified on playback events. */
 @property(nonatomic, weak, nullable) id<FLPlayerViewDelegate> delegate;
+
+/** A propterty to check if the video is playing or not. */
+@property(nonatomic, assign) Boolean isPlaying;
+
 
 /**
  * Starts or resumes playback on the loaded video.

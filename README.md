@@ -12,6 +12,7 @@ import Flowplayer
 class ViewController: UIViewController {
     @IBOutlet weak var playerView: FLPlayerView!
     @IBOutlet weak var progressLabel: UILabel!
+    @IBOutlet weak var controllButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,13 +21,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func buttonPressed(_ sender: UIButton) {
-        // Just a simple example, u probbably dont want to do this
-        if sender.titleLabel?.text == "Play" {
-            playerView.play()
-            sender.setTitle("Pause", for: .normal)
-        } else if sender.titleLabel?.text == "Pause" {
+        if playerView.isPlaying {
             playerView.pause()
             sender.setTitle("Play", for: .normal)
+        } else {
+            playerView.play()
+            sender.setTitle("Pause", for: .normal)
         }
     }
 }
@@ -35,6 +35,9 @@ extension ViewController: FLPlayerViewDelegate {
     // CurrentTime is in seconds
     func timeUpdate(_ currentTime: Float) {
         progressLabel.text = "Time elapsed: \(currentTime)"
+    }
+    func stateChanged(_ isPLaying: Bool) {
+        controllButton.setTitle(isPLaying ? "Pause" : "Play", for: .normal)
     }
 }
 ```
@@ -47,6 +50,7 @@ extension ViewController: FLPlayerViewDelegate {
 @interface ViewController () <FLPlayerViewDelegate>
 @property (weak, nonatomic) IBOutlet FLPlayerView *playerView;
 @property (weak, nonatomic) IBOutlet UILabel *progressLabel;
+@property (weak, nonatomic) IBOutlet UIButton *controllButton;
 
 @end
 
@@ -59,17 +63,21 @@ extension ViewController: FLPlayerViewDelegate {
 }
 
 - (IBAction)buttonPressed:(UIButton *)sender {
-    // Just a simple example, u probbably dont want to do this
-    if ([sender.titleLabel.text isEqualToString:@"Play"]) {
+    if (self.playerView.isPlaying) {
         [self.playerView play];
         [sender setTitle:@"Pause" forState:UIControlStateNormal];
-    } else if ([sender.titleLabel.text isEqualToString:@"Pause"]) {
+    } else {
+        [self.playerView pause];
         [sender setTitle:@"Play" forState:UIControlStateNormal];
     }
 }
 
 - (void)timeUpdate:(float)currentTime {
     self.progressLabel.text = [NSString stringWithFormat:@"%f", currentTime];
+}
+
+- (void)stateChanged:(Boolean)isPLaying {
+    [self.controllButton setTitle: isPLaying ? @"Pause" : @"Play" forState:UIControlStateNormal];
 }
 
 @end

@@ -22,20 +22,34 @@
             playerIframe.src = params['url'];
             
             playerIframe.onload = function() {
-                var innerDoc = playerIframe.contentDocument || playerIframe.contentWindow.document;
-                video = innerDoc.querySelectorAll('video')[0];
-                video.ontimeupdate = function() {updateTime()};
-                function updateTime() {
-                    var json = {
-                        time: video.currentTime
-                    }
-                    window.webkit.messageHandlers.progress.postMessage(JSON.stringify(json));
-                }
-                
                 var json = {
                     message: 'frame is loaded'
                 }
                 window.webkit.messageHandlers.loaded.postMessage(JSON.stringify(json));
+                
+                var innerDoc = playerIframe.contentDocument || playerIframe.contentWindow.document;
+                video = innerDoc.querySelectorAll('video')[0];
+                
+                video.on('timeupdate', function(event) {
+                     var json = {
+                        time: video.currentTime
+                     }
+                     window.webkit.messageHandlers.progress.postMessage(JSON.stringify(json));
+                })
+                
+                video.on('playing', function() {
+                     var json = {
+                         playing: true
+                     }
+                     window.webkit.messageHandlers.stateChanged.postMessage(JSON.stringify(json));
+                })
+                
+                video.on('pause', function() {
+                    var json = {
+                         playing: false
+                    }
+                    window.webkit.messageHandlers.stateChanged.postMessage(JSON.stringify(json));
+                })
             }
         </script>
     </body>

@@ -54,6 +54,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="controllButton" destination="cM5-wM-kLx" id="3OX-3H-MGm"/>
                         <outlet property="playerView" destination="bxh-Vh-4aS" id="A0d-aE-wsd"/>
                         <outlet property="progressLabel" destination="igw-sf-WAS" id="hQk-ye-b0y"/>
                     </connections>

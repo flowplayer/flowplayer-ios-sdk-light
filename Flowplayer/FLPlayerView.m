@@ -47,6 +47,14 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
         if ([self.delegate respondsToSelector:@selector(timeUpdate:)]) {
             [self.delegate timeUpdate:seconds];
         }
+    } else if ([message.name isEqualToString:@"stateChanged"]) {
+        NSData *data = [message.body dataUsingEncoding:NSUTF8StringEncoding];
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        Boolean playing = [[json objectForKey:@"playing"] boolValue];
+        self.isPlaying = playing;
+        if ([self.delegate respondsToSelector:@selector(stateChanged:)]) {
+            [self.delegate stateChanged:playing];
+        }
     } else if ([message.name isEqualToString:@"loaded"]) {
 //        NSData *data = [message.body dataUsingEncoding:NSUTF8StringEncoding];
 //        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -157,6 +165,7 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
     [wkUController addScriptMessageHandler:self name:@"progress"];
     [wkUController addScriptMessageHandler:self name:@"loaded"];
+    [wkUController addScriptMessageHandler:self name:@"stateChanged"];
 
     configuration.userContentController = wkUController;
     
