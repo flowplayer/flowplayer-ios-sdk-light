@@ -1,0 +1,6 @@
+framework module Flowplayer {
+  umbrella header "Flowplayer.h"
+
+  export *
+  module * { export * }
+}
