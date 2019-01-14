@@ -15,5 +15,8 @@ Pod::Spec.new do |s|
   s.license          = "MIT"
   s.platform         = :ios, "10.0"
   s.source           = { :git => "https://github.com/flowplayer/flowplayer-ios-sdk.git", :tag => s.version }
-  s.source_files     = "Flowplayer", "Flowplayer/**/*.{h,m,swift,html}"
+  s.source_files     = "Flowplayer", "Flowplayer/**/*.{h,m,swift}"
+  s.resource_bundles = {
+  	'Flowplayer' => ['Flowplayer/FLPlayerView.bundle']
+  }
 end
