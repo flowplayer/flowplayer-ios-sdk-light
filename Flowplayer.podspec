@@ -8,13 +8,13 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Flowplayer'
-  s.version          = '0.1.0'
+  s.version          = '0.1.2'
   s.summary          = 'Flowplayer iOS SDK'
   s.author           = { 'Mathias Palm' => 'mathias.palm@appshack.se' }
   s.homepage         = 'https://flowplayer.com'
   s.license          = "MIT"
   s.platform         = :ios, "10.0"
-  s.source           = { :git => "git@github.com:flowplayer/flowplayer-ios-sdk.git", :tag => "0.1.1" }
+  s.source           = { :git => "https://github.com/flowplayer/flowplayer-ios-sdk.git", :tag => s.version }
   s.source_files     = "Flowplayer", "Flowplayer/**/*.{h,m,swift}"
 
 end
