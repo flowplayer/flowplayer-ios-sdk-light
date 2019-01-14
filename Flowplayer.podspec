@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://flowplayer.com'
   s.license          = "MIT"
   s.platform         = :ios, "10.0"
-  s.source           = { :git => "URL", :tag => "0.1.1" }
+  s.source           = { :git => "git@github.com:flowplayer/flowplayer-ios-sdk.git", :tag => "0.1.1" }
   s.source_files     = "Flowplayer", "Flowplayer/**/*.{h,m,swift}"
 
 end
