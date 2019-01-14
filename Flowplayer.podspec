@@ -10,20 +10,11 @@ Pod::Spec.new do |s|
   s.name             = 'Flowplayer'
   s.version          = '0.1.0'
   s.summary          = 'Flowplayer iOS SDK'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
-  s.description      = 'Poc SDK for flowplayer video player'
-  s.homepage         = 'https://flowplayer.com'
-  s.platform          = :ios
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.ios.deployment_target = '9.0'
   s.author           = { 'Mathias Palm' => 'mathias.palm@appshack.se' }
-  s.source            = { :http => 'https://raw.github.com/flowplayer/flowplayer-ios-sdk/master/Flowplayer.framework' }
-  s.ios.vendored_frameworks = 'Flowplayer.framework'
+  s.homepage         = 'https://flowplayer.com'
+  s.license          = "MIT"
+  s.platform         = :ios, "10.0"
+  s.source           = { :git => "URL", :tag => "0.1.1" }
+  s.source_files     = "Flowplayer", "Flowplayer/**/*.{h,m,swift}"
 
 end
