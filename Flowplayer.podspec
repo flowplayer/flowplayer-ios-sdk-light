@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Flowplayer'
-  s.version          = '0.1.2'
+  s.version          = '0.1.3'
   s.summary          = 'Flowplayer iOS SDK'
   s.author           = { 'Mathias Palm' => 'mathias.palm@appshack.se' }
   s.homepage         = 'https://flowplayer.com'
