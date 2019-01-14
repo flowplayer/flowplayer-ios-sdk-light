@@ -91,13 +91,26 @@ extension ViewController: FLPlayerViewDelegate {
 
 ## Installation
 
-### Manually
-- Download flowplayer.framework
-- Drag and drop into your project (make sure it's added under embeded libraries)
-- And you are done!
+### Manual
 
-### Cocapods (comming soon)
+Open either swift or objc example.xcodeproj, and hit run. This method will build everything and run the sample app
 
+### [CocoaPods](https://guides.cocoapods.org/using/using-cocoapods.html)
+
+```ruby
+# Podfile
+use_frameworks!
+
+target 'YOUR_TARGET_NAME' do
+    pod 'Flowplayer', :git => 'git@github.com:flowplayer/flowplayer-ios-sdk.git'
+end
+```
+
+Replace `YOUR_TARGET_NAME` and then, in the `Podfile` directory, type:
+
+```bash
+$ pod install
+```
 
 After importing your framework:
 
