@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/flowplayer/flowplayer-ios-sdk.git", :tag => s.version }
   s.source_files     = "Flowplayer", "Flowplayer/**/*.{h,m,swift}"
   s.resource_bundles = {
-  	'Flowplayer' => ['Flowplayer/Assets']
+  	'Flowplayer' => ['Flowplayer/Assets/*']
   }
 end
