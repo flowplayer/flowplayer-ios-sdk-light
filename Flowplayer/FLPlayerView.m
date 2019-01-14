@@ -115,14 +115,12 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     
     NSError *error = nil;
     NSString *path = [[NSBundle bundleForClass:[FLPlayerView class]] pathForResource:@"fl-player"
-                                                                              ofType:@"html"
-                                                                         inDirectory:@"Assets"];
+                                                                              ofType:@"html"];
     // in case of using Swift and embedded frameworks, resources included not in main bundle,
     // but in framework bundle
     if (!path) {
         path = [[[self class] frameworkBundle] pathForResource:@"fl-player"
-                                                        ofType:@"html"
-                                                   inDirectory:@"Assets"];
+                                                        ofType:@"html"];
     }
     NSString *embedHTMLTemplate = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
     
