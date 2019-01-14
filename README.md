@@ -92,8 +92,7 @@ extension ViewController: FLPlayerViewDelegate {
 ## Installation
 
 ### Manually
-- Download flowplayer.framework.zip
-- Unpack zip file
+- Download flowplayer.framework
 - Drag and drop into your project (make sure it's added under embeded libraries)
 - And you are done!
 
