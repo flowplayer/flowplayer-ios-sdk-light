@@ -114,12 +114,12 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     [self addConstraints:constraints];
     
     NSError *error = nil;
-    NSURL *url = [[NSBundle bundleForClass:[FLPlayerView class]] URLForResource:@"fl-player" withExtension:@"html"];
+    NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"fl-player" withExtension:@"html"];
     
     // in case of using Swift and embedded frameworks, resources included not in main bundle,
     // but in framework bundle
     if (!url) {
-        url = [[NSBundle mainBundle] URLForResource:@"Flowplayer.framework/Assets/fl-player" withExtension:@"html"];
+        url = [[[self class] frameworkBundle] URLForResource:@"fl-player" withExtension:@"html"];
     }
     NSString *embedHTMLTemplate = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
     
@@ -172,5 +172,16 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     webView.scrollView.bounces = NO;
     
     return webView;
+}
+
++ (NSBundle *)frameworkBundle {
+    static NSBundle* frameworkBundle = nil;
+    static dispatch_once_t predicate;
+    dispatch_once(&predicate, ^{
+        NSString* mainBundlePath = [[NSBundle bundleForClass:[self class]] resourcePath];
+        NSString* frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:@"FLPlayerView.bundle"];
+        frameworkBundle = [NSBundle bundleWithPath:frameworkBundlePath];
+    });
+    return frameworkBundle;
 }
 @end
