@@ -12,6 +12,7 @@ import Flowplayer
 class ViewController: UIViewController {
     @IBOutlet weak var playerView: FLPlayerView!
     @IBOutlet weak var progressLabel: UILabel!
+    @IBOutlet weak var controllButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,13 +21,12 @@ class ViewController: UIViewController {
     }
     
     @IBAction func buttonPressed(_ sender: UIButton) {
-        // Just a simple example, u probbably dont want to do this
-        if sender.titleLabel?.text == "Play" {
-            playerView.play()
-            sender.setTitle("Pause", for: .normal)
-        } else if sender.titleLabel?.text == "Pause" {
+        if playerView.isPlaying {
             playerView.pause()
             sender.setTitle("Play", for: .normal)
+        } else {
+            playerView.play()
+            sender.setTitle("Pause", for: .normal)
         }
     }
 }
@@ -35,6 +35,9 @@ extension ViewController: FLPlayerViewDelegate {
     // CurrentTime is in seconds
     func timeUpdate(_ currentTime: Float) {
         progressLabel.text = "Time elapsed: \(currentTime)"
+    }
+    func stateChanged(_ isPlaying: Bool) {
+        controllButton.setTitle(isPlaying ? "Pause" : "Play", for: .normal)
     }
 }
 

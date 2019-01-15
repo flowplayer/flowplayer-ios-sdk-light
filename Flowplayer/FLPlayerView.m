@@ -10,14 +10,10 @@
 
 NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
 
-@interface FLPlayerView ()
-
-@property (nonatomic, strong) NSURL *originURL;
-
-@end
-
-
-@implementation FLPlayerView
+@implementation FLPlayerView {
+    NSURL *originURL;
+    WKWebView *webView;
+}
 
 - (BOOL)loadWithVideoId:(NSString *)videoId {
     NSString *url = [NSString stringWithFormat:@"%@/api/video/embed.jsp?id=%@", baseUrl, videoId];
@@ -34,11 +30,11 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
 #pragma mark - Player methods
 
 - (void)play {
-    [self stringFromEvaluatingJavaScript:@"play();" completionHandler:nil];
+    [self stringFromEvaluatingJavaScript:@"video.play();" completionHandler:nil];
 }
 
 - (void)pause {
-    [self stringFromEvaluatingJavaScript:@"pause();" completionHandler:nil];
+    [self stringFromEvaluatingJavaScript:@"video.pause();" completionHandler:nil];
 }
 
 #pragma mark - Helper/delegate methods
@@ -51,11 +47,25 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
         if ([self.delegate respondsToSelector:@selector(timeUpdate:)]) {
             [self.delegate timeUpdate:seconds];
         }
+    } else if ([message.name isEqualToString:@"stateChanged"]) {
+        NSData *data = [message.body dataUsingEncoding:NSUTF8StringEncoding];
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        Boolean playing = [[json objectForKey:@"playing"] boolValue];
+        self.isPlaying = playing;
+        if ([self.delegate respondsToSelector:@selector(stateChanged:)]) {
+            [self.delegate stateChanged:playing];
+        }
+    } else if ([message.name isEqualToString:@"loaded"]) {
+//        NSData *data = [message.body dataUsingEncoding:NSUTF8StringEncoding];
+//        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        if ([self.delegate respondsToSelector:@selector(viewIsReady)]) {
+            [self.delegate viewIsReady];
+        }
     }
 }
 
 - (void)stringFromEvaluatingJavaScript:(NSString *)jsToExecute completionHandler:(void (^ __nullable)(NSString * __nullable response, NSError * __nullable error))completionHandler{
-    [self.webView evaluateJavaScript:jsToExecute completionHandler:^(NSString * _Nullable response, NSError * _Nullable error) {
+    [webView evaluateJavaScript:jsToExecute completionHandler:^(NSString * _Nullable response, NSError * _Nullable error) {
         if (completionHandler) {
             completionHandler(response, error);
         }
@@ -63,37 +73,37 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
 }
 
 - (BOOL)loadWithPlayerParams:(NSDictionary *)playerParams {
-    if (!self.originURL) {
-        self.originURL = [[NSURL alloc] initWithString:baseUrl];
+    if (!originURL) {
+        originURL = [[NSURL alloc] initWithString:baseUrl];
     }
     // Remove the existing webView to reset any state
-    [self.webView removeFromSuperview];
-    _webView = [self createNewWebView];
-    [self addSubview:self.webView];
+    [webView removeFromSuperview];
+    webView = [self createNewWebView];
+    [self addSubview:webView];
     
-    self.webView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:self.webView
+    webView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *topConstraint = [NSLayoutConstraint constraintWithItem:webView
                                                                      attribute:NSLayoutAttributeTop
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self
                                                                      attribute:NSLayoutAttributeTop
                                                                     multiplier:1.0
                                                                       constant:0.0];
-    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:self.webView
+    NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:webView
                                                                       attribute:NSLayoutAttributeLeft
                                                                       relatedBy:NSLayoutRelationEqual
                                                                          toItem:self
                                                                       attribute:NSLayoutAttributeLeft
                                                                      multiplier:1.0
                                                                        constant:0.0];
-    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.webView
+    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:webView
                                                                        attribute:NSLayoutAttributeRight
                                                                        relatedBy:NSLayoutRelationEqual
                                                                           toItem:self
                                                                        attribute:NSLayoutAttributeRight
                                                                       multiplier:1.0
                                                                         constant:0.0];
-    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:self.webView
+    NSLayoutConstraint *bottomConstraint = [NSLayoutConstraint constraintWithItem:webView
                                                                         attribute:NSLayoutAttributeBottom
                                                                         relatedBy:NSLayoutRelationEqual
                                                                            toItem:self
@@ -104,24 +114,20 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     [self addConstraints:constraints];
     
     NSError *error = nil;
-    NSString *path = [[NSBundle bundleForClass:[FLPlayerView class]] pathForResource:@"fl-player"
-                                                                                ofType:@"html"
-                                                                           inDirectory:@"Assets"];
+    NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"fl-player" withExtension:@"html"];
+    
     // in case of using Swift and embedded frameworks, resources included not in main bundle,
     // but in framework bundle
-    if (!path) {
-        path = [[[self class] frameworkBundle] pathForResource:@"fl-player"
-                                                        ofType:@"html"
-                                                   inDirectory:@"Assets"];
+    if (!url) {
+        url = [[[self class] frameworkBundle] URLForResource:@"fl-player" withExtension:@"html"];
     }
-    NSString *embedHTMLTemplate = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    NSString *embedHTMLTemplate = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
     
     if (error) {
         NSLog(@"Received error rendering template: %@", error);
         return NO;
     }
     
-    // Render the playerVars as a JSON dictionary.
     NSError *jsonRenderingError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:playerParams
                                                        options:NSJSONWritingPrettyPrinted
@@ -137,7 +143,7 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     NSString *playerVarsJsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
     NSString *embedHTML = [NSString stringWithFormat:embedHTMLTemplate, playerVarsJsonString];
-    [self.webView loadHTMLString:embedHTML baseURL: self.originURL];
+    [webView loadHTMLString:embedHTML baseURL: originURL];
     
     return YES;
 }
@@ -154,7 +160,9 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
     [wkUController addScriptMessageHandler:self name:@"progress"];
-    
+    [wkUController addScriptMessageHandler:self name:@"loaded"];
+    [wkUController addScriptMessageHandler:self name:@"stateChanged"];
+
     configuration.userContentController = wkUController;
     
     configuration.allowsInlineMediaPlayback = YES;
@@ -165,7 +173,6 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     
     return webView;
 }
-
 
 + (NSBundle *)frameworkBundle {
     static NSBundle* frameworkBundle = nil;
