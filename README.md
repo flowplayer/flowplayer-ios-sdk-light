@@ -76,8 +76,8 @@ extension ViewController: FLPlayerViewDelegate {
     self.progressLabel.text = [NSString stringWithFormat:@"%f", currentTime];
 }
 
-- (void)stateChanged:(Boolean)isPLaying {
-    [self.controllButton setTitle: isPLaying ? @"Pause" : @"Play" forState:UIControlStateNormal];
+- (void)stateChanged:(Boolean)isPlaying {
+    [self.controllButton setTitle: isPlaying ? @"Pause" : @"Play" forState:UIControlStateNormal];
 }
 
 @end
@@ -87,7 +87,7 @@ extension ViewController: FLPlayerViewDelegate {
 * Xcode 9.0
 * iOS 10.0
 
-> please note that this is not fully tested!
+> Not 100% tested.
 
 ## Installation
 
@@ -106,7 +106,8 @@ target 'YOUR_TARGET_NAME' do
 end
 ```
 
-Replace `YOUR_TARGET_NAME` and then, in the `Podfile` directory, type:
+Replace `YOUR_TARGET_NAME` with the name of your target.
+In the `Podfile` directory, type:
 
 ```bash
 $ pod install
@@ -117,5 +118,6 @@ After importing your framework:
   1. Drag a UIView onto your Storyboard.
   2. Change the UIView's class in the Identity Inspector tab to FLPlayerView
   3. Import Flowplayer in your ViewController.
-  6. Run your code!
+  4. Connect outlets and actions
+  5. Run your code!
 
