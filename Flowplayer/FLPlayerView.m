@@ -47,6 +47,14 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
         if ([self.delegate respondsToSelector:@selector(timeUpdate:)]) {
             [self.delegate timeUpdate:seconds];
         }
+    } else if ([message.name isEqualToString:@"stateChanged"]) {
+        NSData *data = [message.body dataUsingEncoding:NSUTF8StringEncoding];
+        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        Boolean playing = [[json objectForKey:@"playing"] boolValue];
+        self.isPlaying = playing;
+        if ([self.delegate respondsToSelector:@selector(stateChanged:)]) {
+            [self.delegate stateChanged:playing];
+        }
     } else if ([message.name isEqualToString:@"loaded"]) {
 //        NSData *data = [message.body dataUsingEncoding:NSUTF8StringEncoding];
 //        id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -106,24 +114,20 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     [self addConstraints:constraints];
     
     NSError *error = nil;
-    NSString *path = [[NSBundle bundleForClass:[FLPlayerView class]] pathForResource:@"fl-player"
-                                                                                ofType:@"html"
-                                                                           inDirectory:@"Assets"];
+    NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"fl-player" withExtension:@"html"];
+    
     // in case of using Swift and embedded frameworks, resources included not in main bundle,
     // but in framework bundle
-    if (!path) {
-        path = [[[self class] frameworkBundle] pathForResource:@"fl-player"
-                                                        ofType:@"html"
-                                                   inDirectory:@"Assets"];
+    if (!url) {
+        url = [[[self class] frameworkBundle] URLForResource:@"fl-player" withExtension:@"html"];
     }
-    NSString *embedHTMLTemplate = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    NSString *embedHTMLTemplate = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
     
     if (error) {
         NSLog(@"Received error rendering template: %@", error);
         return NO;
     }
     
-    // Render the playerVars as a JSON dictionary.
     NSError *jsonRenderingError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:playerParams
                                                        options:NSJSONWritingPrettyPrinted
@@ -157,6 +161,7 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     WKWebViewConfiguration *configuration = [WKWebViewConfiguration new];
     [wkUController addScriptMessageHandler:self name:@"progress"];
     [wkUController addScriptMessageHandler:self name:@"loaded"];
+    [wkUController addScriptMessageHandler:self name:@"stateChanged"];
 
     configuration.userContentController = wkUController;
     
@@ -168,7 +173,6 @@ NSString static *const baseUrl = @"https://ljsp.lwcdn.com";
     
     return webView;
 }
-
 
 + (NSBundle *)frameworkBundle {
     static NSBundle* frameworkBundle = nil;

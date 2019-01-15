@@ -8,13 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		EE332FDC21E62BF6007847ED /* FLPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6B0F5C21E3EE1700C2F4F4 /* FLPlayerView.m */; };
-		EE332FE021E63B3D007847ED /* FLPlayerView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE6A690221E5F8B400B57CC2 /* FLPlayerView.bundle */; };
-		EE6A690321E5F90800B57CC2 /* FLPlayerView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE6A690221E5F8B400B57CC2 /* FLPlayerView.bundle */; };
 		EE6B0F4421E3ED0C00C2F4F4 /* Flowplayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6B0F3A21E3ED0C00C2F4F4 /* Flowplayer.framework */; };
 		EE6B0F4921E3ED0C00C2F4F4 /* FlowplayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6B0F4821E3ED0C00C2F4F4 /* FlowplayerTests.m */; };
 		EE6B0F4B21E3ED0C00C2F4F4 /* Flowplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = EE6B0F3D21E3ED0C00C2F4F4 /* Flowplayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE6B0F5E21E3EE1700C2F4F4 /* FLPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6B0F5C21E3EE1700C2F4F4 /* FLPlayerView.m */; };
 		EE6B0F6121E3F04B00C2F4F4 /* FLPlayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = EE6B0F5F21E3F04B00C2F4F4 /* FLPlayerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EEA06EE321ECEBDE00A3F302 /* FLPlayerView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EEA06EE221ECEBDD00A3F302 /* FLPlayerView.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +27,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EE6A690221E5F8B400B57CC2 /* FLPlayerView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FLPlayerView.bundle; sourceTree = "<group>"; };
 		EE6B0F3A21E3ED0C00C2F4F4 /* Flowplayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Flowplayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6B0F3D21E3ED0C00C2F4F4 /* Flowplayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flowplayer.h; sourceTree = "<group>"; };
 		EE6B0F3E21E3ED0C00C2F4F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -37,6 +35,7 @@
 		EE6B0F4A21E3ED0C00C2F4F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE6B0F5C21E3EE1700C2F4F4 /* FLPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLPlayerView.m; sourceTree = "<group>"; };
 		EE6B0F5F21E3F04B00C2F4F4 /* FLPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLPlayerView.h; sourceTree = "<group>"; };
+		EEA06EE221ECEBDD00A3F302 /* FLPlayerView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FLPlayerView.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +78,7 @@
 		EE6B0F3C21E3ED0C00C2F4F4 /* Flowplayer */ = {
 			isa = PBXGroup;
 			children = (
-				EE6A690221E5F8B400B57CC2 /* FLPlayerView.bundle */,
+				EEA06EE221ECEBDD00A3F302 /* FLPlayerView.bundle */,
 				EE6B0F3D21E3ED0C00C2F4F4 /* Flowplayer.h */,
 				EE6B0F3E21E3ED0C00C2F4F4 /* Info.plist */,
 				EE6B0F5F21E3F04B00C2F4F4 /* FLPlayerView.h */,
@@ -188,7 +187,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE6A690321E5F90800B57CC2 /* FLPlayerView.bundle in Resources */,
+				EEA06EE321ECEBDE00A3F302 /* FLPlayerView.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

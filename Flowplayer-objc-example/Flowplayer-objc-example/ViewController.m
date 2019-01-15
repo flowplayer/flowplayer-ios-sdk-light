@@ -10,8 +10,10 @@
 #import <Flowplayer/Flowplayer.h>
 
 @interface ViewController () <FLPlayerViewDelegate>
+
 @property (weak, nonatomic) IBOutlet FLPlayerView *playerView;
 @property (weak, nonatomic) IBOutlet UILabel *progressLabel;
+@property (weak, nonatomic) IBOutlet UIButton *controllButton;
 
 @end
 
@@ -24,17 +26,21 @@
 }
 
 - (IBAction)buttonPressed:(UIButton *)sender {
-    // Just a simple example, u probbably dont want to do this
-    if ([sender.titleLabel.text isEqualToString:@"Play"]) {
+    if (self.playerView.isPlaying) {
         [self.playerView play];
         [sender setTitle:@"Pause" forState:UIControlStateNormal];
-    } else if ([sender.titleLabel.text isEqualToString:@"Pause"]) {
+    } else {
+        [self.playerView pause];
         [sender setTitle:@"Play" forState:UIControlStateNormal];
     }
 }
 
 - (void)timeUpdate:(float)currentTime {
-    self.progressLabel.text = [NSString stringWithFormat:@"%f", currentTime];
+    self.progressLabel.text = [NSString stringWithFormat:@"Time elapsed: %.2f", currentTime];
+}
+
+- (void)stateChanged:(Boolean)isPlaying {
+    [self.controllButton setTitle: isPlaying ? @"Pause" : @"Play" forState:UIControlStateNormal];
 }
 
 @end
