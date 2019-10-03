@@ -2,6 +2,11 @@
 ![Flowplayer platform](https://img.shields.io/badge/Platform-iOS-orange.svg)
 ![ios 10.0](https://img.shields.io/badge/ios-10.0-blue.svg)
 
+***
+___This product is no longer supported. Please contact to support@flowplayer.com for an alternative product.__
+
+***
+
 ## About
 iOS SDK to easily allow you to play Flowplayer videos in your app.
 
